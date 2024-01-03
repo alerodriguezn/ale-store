@@ -4,7 +4,10 @@ import { inter } from '@/config/fonts'
 
 
 export const metadata: Metadata = {
-  title: 'Ale | Store',
+  title: {
+    template: '%s - Ale | Store',
+    default: 'Home - Ale | Store'
+  },
   description: 'Online Store',
 }
 
