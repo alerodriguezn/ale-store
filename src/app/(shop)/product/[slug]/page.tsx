@@ -7,6 +7,7 @@ import { QuantitySelector } from "@/components";
 import { ProductSlideshow } from "@/components";
 import { getProductBySlug } from "@/actions";
 import { Metadata, ResolvingMetadata } from "next";
+import { AddToCart } from './ui/AddToCart';
 
 interface Props {
   params: {
@@ -68,14 +69,7 @@ export default async function ProductPage({ params }: Props) {
         </h1>
         <p className="text-lg mb-5">${product.price}</p>
 
-        <SizeSelector
-          selectedSize={product.sizes[0]}
-          availableSizes={product.sizes}
-        />
-
-        <QuantitySelector quantity={2} />
-
-        <button className="btn-primary my-5">Add to cart</button>
+         <AddToCart product={product}/>
 
         <h3 className="font-bold text-sm">Description</h3>
         <p className="font-light">{product.description}</p>
