@@ -1,7 +1,9 @@
 "use client";
 
+import { logout } from "@/actions";
 import { useUIStore } from "@/store/ui/ui-store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoClipboardOutline,
@@ -19,6 +21,10 @@ import {
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
+
+  const { data: session } = useSession()
+
+  console.log(session)
 
   return (
     <div className="">
@@ -59,7 +65,8 @@ export const Sidebar = () => {
         </div>
 
         <Link
-          href={`/`}
+          href={`/profile`}
+          onClick={() => closeMenu()}
           className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
         >
           <IoPersonOutline size={30} />
@@ -75,20 +82,21 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          href={`/`}
+          href={`/auth/login`}
+          onClick={() => closeMenu()}
           className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
         >
           <IoLogInOutline size={30} />
           <span className="ml-3 text-xl">Log In</span>
         </Link>
 
-        <Link
-          href={`/`}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+        <button
+          onClick={ () => logout() }
+          className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
         >
           <IoLogOutOutline size={30} />
-          <span className="ml-3 text-xl">Log Out</span>
-        </Link>
+          <span className="ml-3 text-xl">LogOut</span>
+        </button>
 
         <div className="w-full h-px bg-gray-200 my-10" />
 

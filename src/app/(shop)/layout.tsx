@@ -1,5 +1,5 @@
-import { Footer, Sidebar } from "@/components";
-import { TopMenu } from "../../components/ui/top-menu/TopMenu";
+import { Footer, Sidebar,TopMenu } from "@/components";
+
 
 export default function ShopLayout({
   children,
