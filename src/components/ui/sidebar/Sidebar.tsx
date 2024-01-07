@@ -17,6 +17,7 @@ import {
   IoShirtOutline,
   IoTicketOutline,
 } from "react-icons/io5";
+import { AdminOptions } from "./ui/AdminOptions";
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
@@ -25,6 +26,8 @@ export const Sidebar = () => {
   const { data: session } = useSession();
 
   const isAuthenticated = !!session?.user;
+
+  const isAdmin = session?.user.role === "admin";
 
   console.log(session);
 
@@ -65,37 +68,39 @@ export const Sidebar = () => {
           />
         </div>
 
-        <Link
-          href={`/profile`}
-          onClick={() => closeMenu()}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPersonOutline size={30} />
-          <span className="ml-3 text-xl">Profile</span>
-        </Link>
+        {isAuthenticated && (
+          <>
+            <Link
+              href={`/profile`}
+              onClick={() => closeMenu()}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoPersonOutline size={30} />
+              <span className="ml-3 text-xl">Profile</span>
+            </Link>
 
-        <Link
-          href={`/`}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoClipboardOutline size={30} />
-          <span className="ml-3 text-xl">Orders</span>
-        </Link>
+            <Link
+              href={`/`}
+              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+            >
+              <IoClipboardOutline size={30} />
+              <span className="ml-3 text-xl">Orders</span>
+            </Link>
+          </>
+        )}
 
         {isAuthenticated && (
           <button
-          onClick={() => logout()}
-          className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogOutOutline size={30} />
-          <span className="ml-3 text-xl">Logout</span>
-        </button>
-          
+            onClick={() => logout()}
+            className="flex w-full items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+          >
+            <IoLogOutOutline size={30} />
+            <span className="ml-3 text-xl">Logout</span>
+          </button>
         )}
 
-        {
-          !isAuthenticated && (
-            <Link
+        {!isAuthenticated && (
+          <Link
             href={`/auth/login`}
             onClick={() => closeMenu()}
             className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
@@ -103,37 +108,13 @@ export const Sidebar = () => {
             <IoLogInOutline size={30} />
             <span className="ml-3 text-xl">Login</span>
           </Link>
-
-          )
-        }
+        )}
 
         
 
-        <div className="w-full h-px bg-gray-200 my-10" />
+        
 
-        <Link
-          href={`/`}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoShirtOutline size={30} />
-          <span className="ml-3 text-xl">Products</span>
-        </Link>
-
-        <Link
-          href={`/`}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoClipboardOutline size={30} />
-          <span className="ml-3 text-xl">Orders</span>
-        </Link>
-
-        <Link
-          href={`/`}
-          className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoPeopleOutline size={30} />
-          <span className="ml-3 text-xl">Users</span>
-        </Link>
+        {isAdmin && <AdminOptions />}
       </nav>
     </div>
   );
