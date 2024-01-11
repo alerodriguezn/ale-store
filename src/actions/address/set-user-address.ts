@@ -36,7 +36,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       postalCode: address.postalCode,
       phone: address.phone,
       city: address.city,
-      userId,
+      userId:userId,
     };
 
     if (!storeAddress) {

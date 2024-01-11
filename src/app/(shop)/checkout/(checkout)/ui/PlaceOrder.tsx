@@ -4,18 +4,29 @@ import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { placeOrder } from "@/actions";
+import { useRouter } from "next/navigation";
 
 export const PlaceOrder = () => {
-  const [loaded, setLoaded] = useState(false);
 
+  const router = useRouter()
+
+
+  const [loaded, setLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
+
   const address = useAddressStore((state) => state.address);
+
+
   const { subTotal, total, tax, itemsInCart } = useCartStore((state) =>
     state.getSummaryInformation()
   );
 
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
+
 
   useEffect(() => {
     setLoaded(true);
@@ -34,9 +45,18 @@ export const PlaceOrder = () => {
       size: product.size,
     }));
 
-    console.log(productsToOrder)
 
-    setIsPlacingOrder(false);
+    const resp = await placeOrder(productsToOrder, address);
+    if(!resp.ok){
+      setIsPlacingOrder(false)
+      setErrorMessage(resp.message)
+      return
+      
+    }
+
+    clearCart();
+    router.replace('/orders/' + resp.order?.id )
+   
   };
 
   return (
@@ -92,7 +112,7 @@ export const PlaceOrder = () => {
           </span>
         </p>
 
-        {/* <p className="text-red-500">We cannot place the order</p> */}
+        <p className="text-red-500">{ errorMessage }</p>
         <button
           onClick={onPlaceOrder}
           //   href={"/orders/123"}
