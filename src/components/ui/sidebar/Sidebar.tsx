@@ -29,7 +29,6 @@ export const Sidebar = () => {
 
   const isAdmin = session?.user.role === "admin";
 
-  console.log(session);
 
   return (
     <div className="">
