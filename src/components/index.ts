@@ -12,5 +12,5 @@ export * from "./product/slideshow/ProductMobileSlideshow";
 export * from "./footer/Footer";
 export * from "./product/stock-label/StockLabel";
 export * from "./providers/Providers"
-
 export * from './paypal/PayPalButton'
+export * from './orders/OrderStatus'
